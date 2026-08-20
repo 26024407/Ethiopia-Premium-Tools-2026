@@ -3,51 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071A2B">
+
 <title>Ethiopia Premium Tools</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#071A2B;
   color:white;
 }
+
 header{
   padding:22px 18px;
   background:#0B2942;
   text-align:center;
 }
+
 header h1{
   margin:0;
   font-size:24px;
 }
+
 header p{
   margin:7px 0 0;
   color:#b9d7ea;
 }
+
 .container{
   padding:18px;
   max-width:650px;
   margin:auto;
 }
+
 .balance{
   background:linear-gradient(135deg,#123F5F,#0B2942);
   padding:20px;
   border-radius:18px;
   margin-bottom:20px;
 }
-.balance small{color:#b9d7ea}
+
+.balance small{
+  color:#b9d7ea;
+}
+
 .balance h2{
   margin:8px 0 0;
   font-size:30px;
 }
+
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:12px;
 }
+
 .card{
   background:#0D304A;
   border:1px solid #194967;
@@ -55,30 +69,41 @@ header p{
   padding:18px 12px;
   text-align:center;
   cursor:pointer;
-  transition:.2s;
 }
-.card:active{transform:scale(.96)}
-.icon{font-size:30px}
+
+.card:active{
+  transform:scale(.96);
+}
+
+.icon{
+  font-size:30px;
+}
+
 .card h3{
   margin:9px 0 5px;
   font-size:16px;
 }
+
 .card p{
   margin:0;
   color:#a9c5d7;
   font-size:12px;
 }
+
 .section{
   margin-top:25px;
 }
+
 .section h2{
   font-size:19px;
 }
+
 .referral{
   background:#123B55;
   padding:18px;
   border-radius:16px;
 }
+
 .referral button,
 .premium button{
   width:100%;
@@ -89,24 +114,98 @@ header p{
   font-weight:bold;
   cursor:pointer;
 }
+
 .referral button{
   background:#19A974;
   color:white;
 }
+
 .premium{
   background:linear-gradient(135deg,#5A3E00,#8A6500);
   padding:18px;
   border-radius:16px;
 }
+
 .premium button{
   background:#FFD54A;
   color:#171000;
 }
+
 footer{
   text-align:center;
   padding:30px 10px;
   color:#7895a8;
   font-size:12px;
+}
+
+
+/* AI MODAL */
+
+.ai-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:9999;
+  padding:20px;
+}
+
+.ai-box{
+  max-width:600px;
+  margin:60px auto;
+  background:#0D304A;
+  border:1px solid #236080;
+  border-radius:20px;
+  padding:22px;
+  position:relative;
+}
+
+.ai-box h2{
+  margin-top:0;
+}
+
+.close-ai{
+  position:absolute;
+  right:15px;
+  top:12px;
+  border:0;
+  background:none;
+  color:white;
+  font-size:30px;
+  cursor:pointer;
+}
+
+#aiQuestion{
+  width:100%;
+  min-height:120px;
+  margin-top:15px;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #28617e;
+  background:#071A2B;
+  color:white;
+  resize:vertical;
+}
+
+.ask-ai{
+  width:100%;
+  margin-top:12px;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:#19A974;
+  color:white;
+  font-weight:bold;
+  font-size:16px;
+}
+
+.ai-answer{
+  margin-top:15px;
+  padding:15px;
+  background:#071A2B;
+  border-radius:12px;
+  min-height:60px;
+  color:#d8edf8;
 }
 </style>
 </head>
@@ -128,7 +227,7 @@ footer{
 
   <div class="grid">
 
-    <div class="card" onclick="openFeature('AI Assistant')">
+    <div class="card" onclick="openAI()">
       <div class="icon">🤖</div>
       <h3>AI Assistant</h3>
       <p>ጥያቄ ጠይቅ</p>
@@ -179,39 +278,165 @@ footer{
   </div>
 
   <div class="section">
+
     <h2>🎁 Referral</h2>
+
     <div class="referral">
-      <p>ጓደኛህን ጋብዝና ሽልማት አግኝ!</p>
-      <p>Your Referral Code: <b>EPT100</b></p>
-      <button onclick="copyReferral()">📋 Copy Referral Link</button>
+
+      <p>
+        ጓደኛህን ጋብዝና ሽልማት አግኝ!
+      </p>
+
+      <p>
+        Your Referral Code:
+        <b>EPT100</b>
+      </p>
+
+      <button onclick="copyReferral()">
+        📋 Copy Referral Link
+      </button>
+
     </div>
+
   </div>
 
   <div class="section">
+
     <h2>⭐ Premium</h2>
+
     <div class="premium">
+
       <h3>Premium Membership</h3>
-      <p>AI • Video • House Design • Premium Tools</p>
-      <button onclick="openFeature('Premium')">Upgrade Now</button>
+
+      <p>
+        AI • Video • House Design • Premium Tools
+      </p>
+
+      <button onclick="openFeature('Premium')">
+        Upgrade Now
+      </button>
+
     </div>
+
   </div>
 
 </div>
+
+
+<!-- AI ASSISTANT -->
+
+<div id="aiModal" class="ai-modal">
+
+  <div class="ai-box">
+
+    <button class="close-ai" onclick="closeAI()">
+      ×
+    </button>
+
+    <h2>🤖 AI Assistant</h2>
+
+    <p>
+      ማንኛውንም ጥያቄ ጠይቅ
+    </p>
+
+    <textarea
+      id="aiQuestion"
+      placeholder="ጥያቄህን እዚህ ጻፍ..."
+    ></textarea>
+
+    <button
+      class="ask-ai"
+      onclick="askAI()"
+    >
+      🚀 Ask AI
+    </button>
+
+    <div
+      id="aiAnswer"
+      class="ai-answer"
+    >
+      AI መልሱ እዚህ ይታያል።
+    </div>
+
+  </div>
+
+</div>
+
 
 <footer>
   © 2026 Ethiopia Premium Tools
 </footer>
 
+
 <script>
-function openFeature(name){
-  alert(name + " — በቅርቡ ይከፈታል 🚀");
+
+function openAI(){
+
+  document.getElementById("aiModal")
+    .style.display="block";
+
 }
 
-function copyReferral(){
-  const link = window.location.origin + "?ref=EPT100";
-  navigator.clipboard.writeText(link);
-  alert("Referral Link ተቀድቷል ✅");
+
+function closeAI(){
+
+  document.getElementById("aiModal")
+    .style.display="none";
+
 }
+
+
+function askAI(){
+
+  const question =
+    document.getElementById("aiQuestion")
+    .value.trim();
+
+  const answer =
+    document.getElementById("aiAnswer");
+
+  if(!question){
+
+    answer.innerHTML =
+      "⚠️ እባክህ ጥያቄ ጻፍ።";
+
+    return;
+
+  }
+
+  answer.innerHTML =
+    "⏳ AI እየሰራ ነው...<br><br>" +
+    "Backend/API ከተገናኘ በኋላ " +
+    "እውነተኛ AI መልስ ይመጣል።";
+
+}
+
+
+function openFeature(name){
+
+  alert(
+    name +
+    " — በቅርቡ ይከፈታል 🚀"
+  );
+
+}
+
+
+function copyReferral(){
+
+  const link =
+    window.location.origin +
+    "?ref=EPT100";
+
+  navigator.clipboard
+    .writeText(link);
+
+  alert(
+    "Referral Link ተቀድቷል ✅"
+  );
+
+}
+
 </script>
 
 </body>
